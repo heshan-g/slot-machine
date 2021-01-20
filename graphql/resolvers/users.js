@@ -14,7 +14,6 @@ const generateToken = (user) => {
     {
       id: user.id,
       email: user.email,
-      username: user.username,
     },
     SECRET_KEY,
     { expiresIn: '1h' }
@@ -32,52 +31,53 @@ module.exports = {
       }
     },
   },
+
   Mutation: {
-    //Login function
-    async login(_, { username, password }) {
-      //User validation
-      const { valid, errors } = validateLoginInput(username, password);
+    // //Login function
+    // async login(_, { username, password }) {
+    //   //User validation
+    //   const { valid, errors } = validateLoginInput(username, password);
 
-      if (!valid) {
-        throw new UserInputError('Error!', { errors });
-      }
+    //   if (!valid) {
+    //     throw new UserInputError('Error!', { errors });
+    //   }
 
-      const user = await User.findOne({ username });
+    //   const user = await User.findOne({ username });
 
-      if (!user) {
-        errors.general = 'User not found';
-        throw new UserInputError('Wrong username', { errors });
-      }
+    //   if (!user) {
+    //     errors.general = 'User not found';
+    //     throw new UserInputError('Wrong username', { errors });
+    //   }
 
-      const passwordMatch = await bcrypt.compare(password, user.password);
-      if (!passwordMatch) {
-        errors.general = 'Password is incorrect';
-        throw new UserInputError('Wrong password', { errors });
-      }
+    //   const passwordMatch = await bcrypt.compare(password, user.password);
+    //   if (!passwordMatch) {
+    //     errors.general = 'Password is incorrect';
+    //     throw new UserInputError('Wrong password', { errors });
+    //   }
 
-      //Inputs are valid, so create token
-      const token = generateToken(user);
+    //   //Inputs are valid, so create token
+    //   const token = generateToken(user);
 
-      //Return token and user details
-      return {
-        ...user._doc,
-        id: user.id,
-        token,
-      };
-    },
+    //   //Return token and user details
+    //   return {
+    //     ...user._doc,
+    //     id: user.id,
+    //     token,
+    //   };
+    // },
 
     //Register function
     async register(
       _,
-      { registerInput: { username, email, password, confirmPassword } }
+      { registerInput: { email, password, confirmPassword, dateOfBirth } }
     ) {
-      //DONE: validate user data
+      //DONE: implement form validation
 
       const { valid, errors } = validateRegisterInput(
-        username,
         email,
         password,
-        confirmPassword
+        confirmPassword,
+        dateOfBirth
       );
 
       //If there are errors in the errors object, throw error
@@ -88,14 +88,14 @@ module.exports = {
 
       //DONE: Make sure user doesn't already exist
       //Search for User by username
-      const user = await User.findOne({ username });
+      const user = await User.findOne({ email });
 
       //If user exists (not null), throw apollo-server error (caught by apollo-client)
       if (user) {
         //Error here will stop the return at the end of file
-        throw new UserInputError('Username is not available!', {
+        throw new UserInputError('Email already registered', {
           errors: {
-            username: 'This username is already taken!',
+            email: 'You are already registered. Please login to continue.',
           },
         });
       }
@@ -106,10 +106,14 @@ module.exports = {
 
       //Create new User object of name newUser
       const newUser = new User({
-        username,
-        password,
         email,
-        createdAt: new Date().toISOString(),
+        password,
+        dateOfBirth,
+        prizePoints: 0,
+        attempts: 50,
+        vouchers: [],
+        isActive: true,
+        // createdAt: new Date().toISOString(),
       });
 
       //Save newUser

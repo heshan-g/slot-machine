@@ -1,19 +1,27 @@
 const { gql } = require('apollo-server');
 
 const typeDefs = gql`
+  type Voucher {
+    voucherID: String
+    value: Int
+  }
+
   type User {
     id: String!
     email: String!
-    token: String!
-    username: String!
-    createdAt: String!
+    password: String!
+    dateOfBirth: String!
+    prizePoints: Int!
+    attempts: Int!
+    vouchers: [Voucher]!
+    isActive: Boolean!
+    # createdTime: String!
   }
-
   input RegisterInput {
-    username: String!
+    email: String!
     password: String!
     confirmPassword: String!
-    email: String!
+    dateOfBirth: String!
   }
 
   # Queries (SELECTS)
@@ -24,7 +32,7 @@ const typeDefs = gql`
   # Mutations (INSERT, UPDATE & DELETE)
   type Mutation {
     register(registerInput: RegisterInput): User!
-    login(username: String!, password: String!): User!
+    # login(username: String!, password: String!): User!
   }
 `;
 

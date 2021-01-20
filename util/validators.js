@@ -1,17 +1,12 @@
 module.exports.validateRegisterInput = (
-  username,
   email,
   password,
-  confirmPassword
+  confirmPassword,
+  dateOfBirth
 ) => {
   const errors = {};
 
-  //username
-  if (username.trim() === '') {
-    errors.username = 'Username must not be empty';
-  }
-
-  //email
+  //Validate email
   if (email.trim() === '') {
     errors.email = 'Email must not be empty';
   } else {
@@ -21,13 +16,18 @@ module.exports.validateRegisterInput = (
     }
   }
 
-  //password
+  //Validate password
   if (password.trim() === '') {
     errors.password = 'Password must not be empty';
   } else {
     if (password !== confirmPassword) {
       errors.password = 'Confirmation password did not match';
     }
+  }
+
+  //Validate date of birth
+  if (isNaN(Date.parse(dateOfBirth))) {
+    errors.dateOfBirth = 'Invalid date of birth';
   }
 
   //Return errors (if any)
