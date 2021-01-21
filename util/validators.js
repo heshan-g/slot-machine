@@ -37,13 +37,20 @@ module.exports.validateRegisterInput = (
   };
 };
 
-module.exports.validateLoginInput = (username, password) => {
+module.exports.validateLoginInput = (email, password) => {
   const errors = {};
 
-  if (username.trim() === '') {
-    errors.username = 'Username must not be empty';
+  //Validate email
+  if (email.trim() === '') {
+    errors.username = 'Email must not be empty';
+  } else {
+    const regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!email.match(regEx)) {
+      errors.email = 'Email address is invalid';
+    }
   }
 
+  //Validate password
   if (password.trim() === '') {
     errors.password = 'Password must not be empty';
   }

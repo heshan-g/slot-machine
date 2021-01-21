@@ -15,6 +15,7 @@ const typeDefs = gql`
     attempts: Int!
     vouchers: [Voucher]!
     isActive: Boolean!
+    token: String!
     # createdTime: String!
   }
   input RegisterInput {
@@ -32,7 +33,7 @@ const typeDefs = gql`
   # Mutations (INSERT, UPDATE & DELETE)
   type Mutation {
     register(registerInput: RegisterInput): User!
-    # login(username: String!, password: String!): User!
+    login(email: String!, password: String!): User!
   }
 `;
 

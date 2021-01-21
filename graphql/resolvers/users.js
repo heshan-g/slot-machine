@@ -33,38 +33,38 @@ module.exports = {
   },
 
   Mutation: {
-    // //Login function
-    // async login(_, { username, password }) {
-    //   //User validation
-    //   const { valid, errors } = validateLoginInput(username, password);
+    //Login function
+    async login(_, { email, password }) {
+      //User validation
+      const { valid, errors } = validateLoginInput(email, password);
 
-    //   if (!valid) {
-    //     throw new UserInputError('Error!', { errors });
-    //   }
+      if (!valid) {
+        throw new UserInputError('Error!', { errors });
+      }
 
-    //   const user = await User.findOne({ username });
+      const user = await User.findOne({ email });
 
-    //   if (!user) {
-    //     errors.general = 'User not found';
-    //     throw new UserInputError('Wrong username', { errors });
-    //   }
+      if (!user) {
+        errors.general = 'User not found';
+        throw new UserInputError('Wrong email', { errors });
+      }
 
-    //   const passwordMatch = await bcrypt.compare(password, user.password);
-    //   if (!passwordMatch) {
-    //     errors.general = 'Password is incorrect';
-    //     throw new UserInputError('Wrong password', { errors });
-    //   }
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (!passwordMatch) {
+        errors.general = 'Password is incorrect';
+        throw new UserInputError('Wrong password', { errors });
+      }
 
-    //   //Inputs are valid, so create token
-    //   const token = generateToken(user);
+      //Inputs are valid, so create token
+      const token = generateToken(user);
 
-    //   //Return token and user details
-    //   return {
-    //     ...user._doc,
-    //     id: user.id,
-    //     token,
-    //   };
-    // },
+      //Return user details and token
+      return {
+        ...user._doc,
+        id: user.id,
+        token,
+      };
+    },
 
     //Register function
     async register(
