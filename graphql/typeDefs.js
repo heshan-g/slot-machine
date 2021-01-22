@@ -44,6 +44,7 @@ const typeDefs = gql`
 
     play(points: Int!): gameState
     redeemPoints(voucherID: String!): gameState
+    useCoupon(voucherID: String!): gameState
   }
 `;
 
