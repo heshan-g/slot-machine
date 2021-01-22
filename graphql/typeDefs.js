@@ -25,6 +25,13 @@ const typeDefs = gql`
     dateOfBirth: String!
   }
 
+  type gameState {
+    prizePoints: Int!
+    attempts: Int!
+    vouchers: [Voucher]!
+    isActive: Boolean!
+  }
+
   # Queries (SELECTS)
   type Query {
     getUsers: [User]
@@ -34,6 +41,8 @@ const typeDefs = gql`
   type Mutation {
     register(registerInput: RegisterInput): User!
     login(email: String!, password: String!): User!
+
+    play(points: Int!): gameState
   }
 `;
 
