@@ -43,6 +43,7 @@ const typeDefs = gql`
     login(email: String!, password: String!): User!
 
     play(points: Int!): gameState
+    redeemPoints(voucherID: String!): gameState
   }
 `;
 

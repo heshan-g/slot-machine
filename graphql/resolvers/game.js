@@ -30,5 +30,31 @@ module.exports = {
         throw new Error(err);
       }
     },
+    async redeemPoints(_, { voucherID }, context) {
+      //Check user authentication
+      const userAuth = checkAuth(context);
+
+      try {
+        //Get user from DB and update
+        const user = await User.findById(userAuth.id);
+
+        const value = 1000;
+
+        user.prizePoints -= value;
+        user.vouchers = [...user.vouchers, { voucherID, value }];
+
+        await user.save();
+
+        //Return updated user details
+        return {
+          prizePoints: user.prizePoints,
+          attempts: user.attempts,
+          vouchers: user.vouchers,
+          isActive: user.isActive,
+        };
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
   },
 };
