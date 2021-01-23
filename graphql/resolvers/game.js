@@ -2,7 +2,7 @@ const { UserInputError } = require('apollo-server');
 
 const User = require('../../models/User');
 const checkAuth = require('../../util/check-auth');
-const { SECRET_KEY } = require('../../config');
+// const { SECRET_KEY } = require('../../config');
 
 module.exports = {
   Mutation: {
@@ -46,6 +46,34 @@ module.exports = {
         await user.save();
 
         //Return updated user details
+        return {
+          prizePoints: user.prizePoints,
+          attempts: user.attempts,
+          vouchers: user.vouchers,
+          isActive: user.isActive,
+        };
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    async useCoupon(_, { voucherID }, context) {
+      //Check user authentication
+      const userAuth = checkAuth(context);
+
+      try {
+        //Get user from DB and update
+        const user = await User.findById(userAuth.id);
+
+        for (let i = 0; i < user.vouchers.length; i++) {
+          if (user.vouchers[i].voucherID === voucherID) {
+            user.vouchers.splice(i, 1);
+            user.attempts += 50;
+          }
+        }
+
+        user.save();
+
+        //Return updated game state
         return {
           prizePoints: user.prizePoints,
           attempts: user.attempts,
