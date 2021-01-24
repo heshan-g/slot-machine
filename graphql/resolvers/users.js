@@ -55,6 +55,8 @@ module.exports = {
         throw new UserInputError('Wrong password', { errors });
       }
 
+      console.log('mutated!!');
+
       //Inputs are valid, so create token
       const token = generateToken(user);
 
