@@ -66,7 +66,8 @@ module.exports = {
 
         for (let i = 0; i < user.vouchers.length; i++) {
           if (user.vouchers[i].voucherID === voucherID) {
-            await user.vouchers.splice(i, 1);
+            user.vouchers.splice(i, 1);
+            user.attempts += 50;
           }
         }
 
