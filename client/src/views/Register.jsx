@@ -15,7 +15,7 @@ export default function Register(props) {
   const [addUser, { loading }] = useMutation(REGISTER, {
     update(_, result) {
       console.log(result);
-      props.history.push('/');
+      props.history.push('/login');
     },
     onError(err) {
       console.log(err.graphQLErrors[0].extensions.exception.errors);
