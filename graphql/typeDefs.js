@@ -16,8 +16,8 @@ const typeDefs = gql`
     vouchers: [Voucher]!
     isActive: Boolean!
     token: String!
-    # createdTime: String!
   }
+
   input RegisterInput {
     email: String!
     password: String!
@@ -34,7 +34,7 @@ const typeDefs = gql`
 
   # Queries (SELECTS)
   type Query {
-    getUsers: [User]
+    getUser(userId: ID!): User!
   }
 
   # Mutations (INSERT, UPDATE & DELETE)

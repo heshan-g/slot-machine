@@ -16,16 +16,20 @@ const generateToken = (user) => {
       email: user.email,
     },
     SECRET_KEY,
-    { expiresIn: '1h' }
+    { expiresIn: '24h' }
   );
 };
 
 module.exports = {
   Query: {
-    async getUsers() {
+    async getUser(_, { userId }) {
       try {
-        const users = await User.find();
-        return users;
+        const user = await User.findById(userId);
+        if (user) {
+          return user;
+        } else {
+          throw new Error('User not found');
+        }
       } catch (err) {
         throw new Error(err);
       }
