@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Grid, Button, Label } from 'semantic-ui-react';
+import { Grid, Label } from 'semantic-ui-react';
 import { useQuery, gql } from '@apollo/client';
 
 import { AuthContext } from '../context/auth';
 
 import Play from '../Components/Play';
+import Redeem from '../Components/Redeem';
+import MyCoupons from '../Components/MyCoupons';
 
 const Game = () => {
   //Initialise game state
@@ -39,23 +41,41 @@ const Game = () => {
     setAttempts(attempts - 1);
   };
 
+  //Callback function being called from <Redeem />
+  const updateVouchers = (newVoucherList) => {
+    setVouchers(newVoucherList);
+  };
+
+  //Callback function being called from <Redeem />
+  const updatePoints = (newPoints) => {
+    setPrizePoints(newPoints);
+  };
+
   return (
     <React.Fragment>
       {/* Points area */}
       <Grid>
         <Grid.Row className='two column'>
           <Grid.Column>
-            <Button className='ui left floated'>My Coupons</Button>
+            <MyCoupons vouchers={vouchers} />
           </Grid.Column>
 
           <Grid.Column>
             <Label>You have {prizePoints} prize points</Label>
           </Grid.Column>
         </Grid.Row>
-        {prizePoints >= 1000 ? (
-          //Show REDEEM button if points >= 1000
-          <h3>Redeem Button</h3>
-        ) : null}
+        <Grid.Row className='one column'>
+          <Grid.Column className='right floated column'>
+            {/* Show REDEEM button if points >= 1000 */}
+            {prizePoints >= 1000 ? (
+              <Redeem
+                updateVouchers={updateVouchers}
+                updatePoints={updatePoints}
+                currentPoints={prizePoints}
+              />
+            ) : null}
+          </Grid.Column>
+        </Grid.Row>
       </Grid>
 
       {/* Play area */}
