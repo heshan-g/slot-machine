@@ -45,11 +45,16 @@ const Game = () => {
   const updateVouchers = (newVoucherList) => {
     setVouchers(newVoucherList);
   };
-
   //Callback function being called from <Redeem />
   const updatePoints = (newPoints) => {
     setPrizePoints(newPoints);
   };
+
+  useEffect(() => {
+    if (attempts <= 0) {
+      setIsActive(false);
+    }
+  }, [attempts]);
 
   return (
     <React.Fragment>
@@ -83,6 +88,7 @@ const Game = () => {
         playGame={play}
         currentAttempts={attempts}
         currentPrizePoints={prizePoints}
+        activeStatus={isActive}
       />
 
       <Grid columns='equal' textAlign='center'>

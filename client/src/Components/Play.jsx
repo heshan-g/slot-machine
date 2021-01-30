@@ -2,9 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Grid, Segment, Button } from 'semantic-ui-react';
 import { useMutation, gql } from '@apollo/client';
 
+import UseCoupon from './UseCoupon';
+
 const Play = (props) => {
   const [wheel, setWheel] = useState([]);
   const [spinPoints, setSpinPoints] = useState(0);
+
+  //Modal state
+  const [open, setOpen] = useState(false);
 
   // const [remainingAttempts, setRemainingAttempts] = useState();
   // const [remainingPrizePoints, setRemainingPrizePoints] = useState();
@@ -61,12 +66,17 @@ const Play = (props) => {
 
   //Called when spun ("Play" button is clicked)
   const spin = () => {
-    //Spin wheels
-    setWheel([
-      Math.floor(Math.random() * Math.floor(9)) + 1,
-      Math.floor(Math.random() * Math.floor(9)) + 1,
-      Math.floor(Math.random() * Math.floor(9)) + 1,
-    ]);
+    if (props.activeStatus) {
+      //Spin wheels
+      setWheel([
+        Math.floor(Math.random() * Math.floor(9)) + 1,
+        Math.floor(Math.random() * Math.floor(9)) + 1,
+        Math.floor(Math.random() * Math.floor(9)) + 1,
+      ]);
+    } else {
+      //Show useCoupon modal
+      return setOpen(true);
+    }
   };
 
   //Update points for current spin
@@ -83,6 +93,10 @@ const Play = (props) => {
     }
     setSpinPoints();
   }, [spinPoints, playGame, playMutation]);
+
+  const setCouponModalState = (state) => {
+    setOpen(state);
+  };
 
   return (
     <Grid columns='equal' textAlign='center'>
@@ -105,6 +119,9 @@ const Play = (props) => {
           >
             Play!
           </Button>
+
+          {/* useCoupon modal */}
+          <UseCoupon modalState={open} setModalState={setCouponModalState} />
         </Grid.Column>
       </Grid.Row>
     </Grid>

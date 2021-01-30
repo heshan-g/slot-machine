@@ -8,7 +8,7 @@ const Redeem = (props) => {
   const [voucherList, setVoucherList] = useState([]);
   const [prizePoints, setPrizePoints] = useState(props.currentPoints);
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   //GQL redeemPoints(voucherID) mutation
   const [redeemPointsMutation] = useMutation(REDEEM, {
