@@ -53,6 +53,11 @@ module.exports = {
         throw new UserInputError('Wrong email', { errors });
       }
 
+      if (!user.isActive) {
+        errors.general = 'Account is deactivated';
+        throw new UserInputError('Deactivated account', { errors });
+      }
+
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (!passwordMatch) {
         errors.general = 'Password is incorrect';
