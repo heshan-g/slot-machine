@@ -16,7 +16,7 @@ const Game = () => {
   const [isActive, setIsActive] = useState(true);
 
   //Get user data from GQL query to initialise game state
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const { refetch, data: { getUser: gameState } = {} } = useQuery(
     GET_GAME_STATE,
     {
@@ -42,6 +42,12 @@ const Game = () => {
       setIsActive(false);
     }
   }, [attempts]);
+
+  useEffect(() => {
+    if (!isActive && vouchers.length < 1) {
+      logout();
+    }
+  }, [isActive, logout, vouchers]);
 
   return (
     <React.Fragment>
