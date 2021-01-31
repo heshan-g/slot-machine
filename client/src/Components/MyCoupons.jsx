@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import { useQuery, gql } from '@apollo/client';
 import { Modal, Button } from 'semantic-ui-react';
 
+import { AuthContext } from '../context/auth';
+
 const MyCoupons = (props) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  //   const [voucherList] = useState(props.voucherList);
+
+  //Get user data from GQL and query vouchers from DB
+  const { user } = useContext(AuthContext);
+
+  const { data: { getUser: { vouchers } = {} } = {} } = useQuery(GET_VOUCHERS, {
+    variables: { uid: user.id },
+  });
+
   return (
     <Modal
       size='mini'
@@ -14,14 +26,16 @@ const MyCoupons = (props) => {
       <Modal.Header>My Coupons</Modal.Header>
       <Modal.Content scrolling>
         <Modal.Description>
-          {props.vouchers.map((voucher) => {
-            return (
-              <React.Fragment key={voucher.voucherID}>
-                <h3>{voucher.voucherID}</h3>
-                <p>Value: {voucher.value}</p>
-              </React.Fragment>
-            );
-          })}
+          {/* Map and render vouchers once available */}
+          {vouchers &&
+            vouchers.map((voucher) => {
+              return (
+                <React.Fragment key={voucher.voucherID}>
+                  <h3>{voucher.voucherID}</h3>
+                  <p>Value: {voucher.value}</p>
+                </React.Fragment>
+              );
+            })}
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
@@ -32,3 +46,14 @@ const MyCoupons = (props) => {
 };
 
 export default MyCoupons;
+
+const GET_VOUCHERS = gql`
+  query($uid: ID!) {
+    getUser(userId: $uid) {
+      vouchers {
+        voucherID
+        value
+      }
+    }
+  }
+`;

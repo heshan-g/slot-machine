@@ -1,12 +1,28 @@
 import React, { useState } from 'react';
+import { gql, useMutation } from '@apollo/client';
 import { Button, Modal, Form } from 'semantic-ui-react';
 
 const UseCoupon = (props) => {
   //Input field value
   const [voucherInput, setVoucherInput] = useState('');
+  const [voucherList, setVoucherList] = useState(props.vouchers);
 
   //Modal state from Play (parent) component
   const { setModalState } = props;
+
+  //GQL useCoupon(voucherID) mutation
+  const [useCouponMutation] = useMutation(USE_COUPON, {
+    update(_, result) {
+      //   console.log(result.data.useCoupon.vouchers);
+      setVoucherList(result.data.useCoupon.vouchers);
+    },
+    onError(err) {
+      throw new Error(err);
+    },
+    variables: {
+      voucherID: voucherInput,
+    },
+  });
 
   //Handle input for voucherID
   const handleVoucherChange = (e) => {
@@ -15,9 +31,18 @@ const UseCoupon = (props) => {
 
   //Handle submit of voucherID
   const useVoucher = () => {
-    console.log(voucherInput);
+    useCouponMutation();
+    // props.updateVouchers(voucherList);
+    props.updateGameState();
     setVoucherInput('');
+    setModalState(false);
   };
+
+  //Update vouchers in the Game (parent's parent) component
+  //   const { updateVouchers } = props;
+  //   useEffect(() => {
+  //     updateVouchers(voucherList);
+  //   }, [voucherList, updateVouchers]);
 
   return (
     <Modal
@@ -52,3 +77,15 @@ const UseCoupon = (props) => {
 };
 
 export default UseCoupon;
+
+const USE_COUPON = gql`
+  mutation($voucherID: String!) {
+    useCoupon(voucherID: $voucherID) {
+      attempts
+      vouchers {
+        voucherID
+        value
+      }
+    }
+  }
+`;

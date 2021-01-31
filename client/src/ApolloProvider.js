@@ -24,7 +24,24 @@ const authLink = setContext(() => {
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      User: {
+        merge: false,
+        // fields: {
+        //   id: { merge: false },
+        //   email: { merge: false },
+        //   password: { merge: false },
+        //   dateOfBirth: { merge: false },
+        //   prizePoints: { merge: false },
+        //   attempts: { merge: false },
+        //   vouchers: { merge: false },
+        //   isActive: { merge: false },
+        //   token: { merge: false },
+        // },
+      },
+    },
+  }),
 });
 
 export default (

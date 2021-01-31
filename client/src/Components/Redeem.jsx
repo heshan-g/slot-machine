@@ -42,11 +42,11 @@ const Redeem = (props) => {
     updateVouchers(voucherList);
   }, [voucherList, updateVouchers]);
 
-  //Pass the updated prizePoints to Game (parent)
-  const { updatePoints } = props;
-  useEffect(() => {
-    updatePoints(prizePoints);
-  }, [prizePoints, updatePoints]);
+  // //Pass the updated prizePoints to Game (parent)
+  // const { updatePoints } = props;
+  // useEffect(() => {
+  //   updatePoints(prizePoints);
+  // }, [prizePoints, updatePoints]);
 
   return (
     <Modal

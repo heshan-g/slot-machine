@@ -15,12 +15,16 @@ const Game = () => {
   const [vouchers, setVouchers] = useState([]);
   const [isActive, setIsActive] = useState(true);
 
+  const [trigger, setTrigger] = useState(false);
+
   //Get user data from GQL query to initialise game state
   const { user } = useContext(AuthContext);
-
-  const { data: { getUser: gameState } = {} } = useQuery(GET_GAME_STATE, {
-    variables: { uid: user.id },
-  });
+  const { refetch, loading, data: { getUser: gameState } = {} } = useQuery(
+    GET_GAME_STATE,
+    {
+      variables: { uid: user.id },
+    }
+  );
 
   //Set the initial state of game
   useEffect(() => {
@@ -37,18 +41,26 @@ const Game = () => {
 
   //Callback function being called from <Play />
   const play = (points) => {
-    setPrizePoints(prizePoints + points);
-    setAttempts(attempts - 1);
+    setTrigger(!trigger);
+    // setPrizePoints(prizePoints + points);
+    // setAttempts(attempts - 1);
   };
 
-  //Callback function being called from <Redeem />
+  // useEffect(() => {
+  //   if (!loading) {
+  //     refetch();
+  //     console.log('trigger called');
+  //   }
+  // }, [trigger]);
+
+  //Callback function being called from either <Redeem /> or <Play><UseCoupon /></Play>
   const updateVouchers = (newVoucherList) => {
     setVouchers(newVoucherList);
   };
   //Callback function being called from <Redeem />
-  const updatePoints = (newPoints) => {
-    setPrizePoints(newPoints);
-  };
+  // const updatePoints = (newPoints) => {
+  //   setPrizePoints(newPoints);
+  // };
 
   useEffect(() => {
     if (attempts <= 0) {
@@ -62,7 +74,8 @@ const Game = () => {
       <Grid>
         <Grid.Row className='two column'>
           <Grid.Column>
-            <MyCoupons vouchers={vouchers} />
+            {/* Render MyCoupons only if vouchers[] is defined */}
+            <MyCoupons voucherList={vouchers} />
           </Grid.Column>
 
           <Grid.Column>
@@ -71,11 +84,11 @@ const Game = () => {
         </Grid.Row>
         <Grid.Row className='one column'>
           <Grid.Column className='right floated column'>
-            {/* Show REDEEM button if points >= 1000 */}
+            {/* Render Redeem only if prizePoints >= 1000 */}
             {prizePoints >= 1000 ? (
               <Redeem
                 updateVouchers={updateVouchers}
-                updatePoints={updatePoints}
+                // updatePoints={updatePoints}
                 currentPoints={prizePoints}
               />
             ) : null}
@@ -83,12 +96,14 @@ const Game = () => {
         </Grid.Row>
       </Grid>
 
-      {/* Play area */}
+      {/* Render Play */}
       <Play
         playGame={play}
         currentAttempts={attempts}
-        currentPrizePoints={prizePoints}
         activeStatus={isActive}
+        updateVouchers={updateVouchers}
+        currentVoucherList={vouchers}
+        refetchQuery={refetch}
       />
 
       <Grid columns='equal' textAlign='center'>

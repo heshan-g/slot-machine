@@ -19,6 +19,8 @@ const Play = (props) => {
     update(_, result) {
       // setRemainingAttempts(result.data.play.attempts);
       // setRemainingPrizePoints(result.data.play.prizePoints);
+      props.refetchQuery();
+      console.log('Refetched');
     },
     onError(err) {
       throw new Error(err);
@@ -119,9 +121,12 @@ const Play = (props) => {
           >
             Play!
           </Button>
-
           {/* useCoupon modal */}
-          <UseCoupon modalState={open} setModalState={setCouponModalState} />
+          <UseCoupon
+            modalState={open}
+            setModalState={setCouponModalState}
+            updateVouchers={props.updateVouchers}
+          />
         </Grid.Column>
       </Grid.Row>
     </Grid>
