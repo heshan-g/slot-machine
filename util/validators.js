@@ -34,6 +34,16 @@ module.exports.validateRegisterInput = (
   //Validate date of birth
   if (isNaN(Date.parse(dateOfBirth))) {
     errors.dateOfBirth = 'Invalid date of birth';
+  } else {
+    function calculateAge(dob) {
+      var diff_ms = Date.now() - dob.getTime();
+      var age_dt = new Date(diff_ms);
+
+      return Math.abs(age_dt.getUTCFullYear() - 1970);
+    }
+    if (calculateAge(new Date(dateOfBirth))) {
+      errors.dateOfBirth = 'You should be older than 18 years';
+    }
   }
 
   //Return errors (if any)
