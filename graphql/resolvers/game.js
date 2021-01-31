@@ -84,5 +84,29 @@ module.exports = {
         throw new Error(err);
       }
     },
+
+    async deactivateAccount(_, { status }, context) {
+      //Check user authentication
+      const userAuth = checkAuth(context);
+
+      try {
+        //Get user from DB and update
+        const user = await User.findById(userAuth.id);
+
+        user.isActive = 0;
+
+        user.save();
+
+        //Return updated game state
+        return {
+          prizePoints: user.prizePoints,
+          attempts: user.attempts,
+          vouchers: user.vouchers,
+          isActive: user.isActive,
+        };
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
   },
 };
