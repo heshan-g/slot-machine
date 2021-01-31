@@ -192,6 +192,14 @@ form input::placeholder {
   color: #2a4853 !important;
 }
 
+.modalBtn {
+  font-size: 16px !important;
+  font-family: 'Roboto Mono', monospace !important;
+  letter-spacing: 1px;
+  background-color: #719fb0 !important;
+  color: white !important;
+}
+
 .meduh {
   background-color: transparent !important;
   border: 6px solid teal !important;

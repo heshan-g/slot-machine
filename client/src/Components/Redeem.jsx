@@ -69,6 +69,7 @@ const Redeem = (props) => {
             addVoucher();
           }}
           positive
+          className='modalBtn'
         />
       </Modal.Actions>
     </Modal>
