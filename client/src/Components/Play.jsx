@@ -11,16 +11,12 @@ const Play = (props) => {
   //Modal state
   const [open, setOpen] = useState(false);
 
-  // const [remainingAttempts, setRemainingAttempts] = useState();
-  // const [remainingPrizePoints, setRemainingPrizePoints] = useState();
+  const { refetchQuery } = props;
 
   //GQL play(points) mutation
   const [playMutation, { loading }] = useMutation(PLAY, {
     update(_, result) {
-      // setRemainingAttempts(result.data.play.attempts);
-      // setRemainingPrizePoints(result.data.play.prizePoints);
-      props.refetchQuery();
-      console.log('Refetched');
+      refetchQuery();
     },
     onError(err) {
       throw new Error(err);
@@ -123,7 +119,7 @@ const Play = (props) => {
           <UseCoupon
             modalState={open}
             setModalState={setCouponModalState}
-            updateVouchers={props.updateVouchers}
+            refetchQuery={refetchQuery}
           />
         </Grid.Column>
       </Grid.Row>

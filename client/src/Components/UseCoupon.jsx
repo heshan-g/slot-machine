@@ -5,7 +5,6 @@ import { Button, Modal, Form } from 'semantic-ui-react';
 const UseCoupon = (props) => {
   //Input field value
   const [voucherInput, setVoucherInput] = useState('');
-  const [voucherList, setVoucherList] = useState(props.vouchers);
 
   //Modal state from Play (parent) component
   const { setModalState } = props;
@@ -13,8 +12,7 @@ const UseCoupon = (props) => {
   //GQL useCoupon(voucherID) mutation
   const [useCouponMutation] = useMutation(USE_COUPON, {
     update(_, result) {
-      //   console.log(result.data.useCoupon.vouchers);
-      setVoucherList(result.data.useCoupon.vouchers);
+      props.refetchQuery();
     },
     onError(err) {
       throw new Error(err);
@@ -32,17 +30,9 @@ const UseCoupon = (props) => {
   //Handle submit of voucherID
   const useVoucher = () => {
     useCouponMutation();
-    // props.updateVouchers(voucherList);
-    props.updateGameState();
     setVoucherInput('');
     setModalState(false);
   };
-
-  //Update vouchers in the Game (parent's parent) component
-  //   const { updateVouchers } = props;
-  //   useEffect(() => {
-  //     updateVouchers(voucherList);
-  //   }, [voucherList, updateVouchers]);
 
   return (
     <Modal
