@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Grid, Label } from 'semantic-ui-react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, useMutation, gql } from '@apollo/client';
 
 import { AuthContext } from '../context/auth';
 
@@ -34,7 +34,6 @@ const Game = () => {
     }
   }, [gameState]);
 
-  console.log('vouchers: ', vouchers);
   console.log('Active: ', isActive);
 
   useEffect(() => {
@@ -43,11 +42,27 @@ const Game = () => {
     }
   }, [attempts]);
 
+  //GQL deactivateAccount mutation
+  const [deactivateAccountMutation] = useMutation(DEACTIVATE_ACCOUNT, {
+    update(_, result) {},
+    onError(err) {
+      throw new Error(err);
+    },
+    variables: {
+      status: isActive,
+    },
+  });
+
+  //Check account status and vouchers and logout
   useEffect(() => {
-    if (!isActive && vouchers.length < 1) {
-      logout();
-    }
-  }, [isActive, logout, vouchers]);
+    const lockUser = async () => {
+      if (!isActive && vouchers.length < 1) {
+        await deactivateAccountMutation();
+        logout();
+      }
+    };
+    lockUser();
+  }, [isActive, deactivateAccountMutation, logout, vouchers]);
 
   return (
     <React.Fragment>
@@ -91,6 +106,19 @@ export default Game;
 const GET_GAME_STATE = gql`
   query($uid: ID!) {
     getUser(userId: $uid) {
+      prizePoints
+      attempts
+      vouchers {
+        voucherID
+        value
+      }
+      isActive
+    }
+  }
+`;
+const DEACTIVATE_ACCOUNT = gql`
+  mutation($status: Boolean!) {
+    deactivateAccount(status: $status) {
       prizePoints
       attempts
       vouchers {
