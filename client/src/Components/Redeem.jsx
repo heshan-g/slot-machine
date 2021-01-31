@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Header, Modal } from 'semantic-ui-react';
 import { gql, useMutation } from '@apollo/client';
 import randomString from 'randomstring';
 
 const Redeem = (props) => {
   const [voucher, setVoucher] = useState('');
-  const [voucherList, setVoucherList] = useState([]);
-  const [prizePoints, setPrizePoints] = useState(props.currentPoints);
 
+  //Modal state
   const [open, setOpen] = useState(false);
 
   //GQL redeemPoints(voucherID) mutation
   const [redeemPointsMutation] = useMutation(REDEEM, {
     update(_, result) {
       console.log(result.data.redeemPoints.prizePoints);
-      setVoucherList(result.data.redeemPoints.vouchers);
-      setPrizePoints(result.data.redeemPoints.prizePoints);
+      props.refetchQuery();
     },
     onError(err) {
       throw new Error(err);
@@ -35,18 +33,6 @@ const Redeem = (props) => {
     console.log(voucher);
     redeemPointsMutation();
   };
-
-  //Pass the updated voucher list to Game (parent)
-  const { updateVouchers } = props;
-  useEffect(() => {
-    updateVouchers(voucherList);
-  }, [voucherList, updateVouchers]);
-
-  // //Pass the updated prizePoints to Game (parent)
-  // const { updatePoints } = props;
-  // useEffect(() => {
-  //   updatePoints(prizePoints);
-  // }, [prizePoints, updatePoints]);
 
   return (
     <Modal

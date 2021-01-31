@@ -15,11 +15,9 @@ const Game = () => {
   const [vouchers, setVouchers] = useState([]);
   const [isActive, setIsActive] = useState(true);
 
-  const [trigger, setTrigger] = useState(false);
-
   //Get user data from GQL query to initialise game state
   const { user } = useContext(AuthContext);
-  const { refetch, loading, data: { getUser: gameState } = {} } = useQuery(
+  const { refetch, data: { getUser: gameState } = {} } = useQuery(
     GET_GAME_STATE,
     {
       variables: { uid: user.id },
@@ -38,29 +36,6 @@ const Game = () => {
 
   console.log('vouchers: ', vouchers);
   console.log('Active: ', isActive);
-
-  //Callback function being called from <Play />
-  const play = (points) => {
-    setTrigger(!trigger);
-    // setPrizePoints(prizePoints + points);
-    // setAttempts(attempts - 1);
-  };
-
-  // useEffect(() => {
-  //   if (!loading) {
-  //     refetch();
-  //     console.log('trigger called');
-  //   }
-  // }, [trigger]);
-
-  //Callback function being called from either <Redeem /> or <Play><UseCoupon /></Play>
-  const updateVouchers = (newVoucherList) => {
-    setVouchers(newVoucherList);
-  };
-  //Callback function being called from <Redeem />
-  // const updatePoints = (newPoints) => {
-  //   setPrizePoints(newPoints);
-  // };
 
   useEffect(() => {
     if (attempts <= 0) {
@@ -86,25 +61,14 @@ const Game = () => {
           <Grid.Column className='right floated column'>
             {/* Render Redeem only if prizePoints >= 1000 */}
             {prizePoints >= 1000 ? (
-              <Redeem
-                updateVouchers={updateVouchers}
-                // updatePoints={updatePoints}
-                currentPoints={prizePoints}
-              />
+              <Redeem currentPoints={prizePoints} refetchQuery={refetch} />
             ) : null}
           </Grid.Column>
         </Grid.Row>
       </Grid>
 
       {/* Render Play */}
-      <Play
-        playGame={play}
-        currentAttempts={attempts}
-        activeStatus={isActive}
-        updateVouchers={updateVouchers}
-        currentVoucherList={vouchers}
-        refetchQuery={refetch}
-      />
+      <Play activeStatus={isActive} refetchQuery={refetch} />
 
       <Grid columns='equal' textAlign='center'>
         <Grid.Row>

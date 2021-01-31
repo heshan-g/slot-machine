@@ -87,14 +87,12 @@ const Play = (props) => {
   }, [wheel]);
 
   //Update DB and UI with last spin's results
-  const { playGame } = props;
   useEffect(() => {
     if (spinPoints > 0) {
-      playGame(spinPoints);
       playMutation();
     }
     setSpinPoints();
-  }, [spinPoints, playGame, playMutation]);
+  }, [spinPoints, playMutation]);
 
   const setCouponModalState = (state) => {
     setOpen(state);
