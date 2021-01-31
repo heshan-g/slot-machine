@@ -4,6 +4,8 @@ import { Modal, Button } from 'semantic-ui-react';
 
 import { AuthContext } from '../context/auth';
 
+import './playStyles.css';
+
 const MyCoupons = (props) => {
   const [open, setOpen] = useState(false);
   //   const [voucherList] = useState(props.voucherList);
@@ -21,7 +23,9 @@ const MyCoupons = (props) => {
       open={open}
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
-      trigger={<Button>My Coupons</Button>}
+      trigger={
+        <Button className='ui left floated myCoupons'>My Coupons</Button>
+      }
     >
       <Modal.Header>My Coupons</Modal.Header>
       <Modal.Content scrolling>

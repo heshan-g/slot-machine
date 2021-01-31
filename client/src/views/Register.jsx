@@ -34,9 +34,9 @@ export default function Register(props) {
   };
 
   return (
-    <div>
+    <div className='registerForm'>
       <Form onSubmit={onSubmit} noValidate className={loading ? 'loading' : ''}>
-        <h1>Register</h1>
+        <h1 className='rTitle'>Register</h1>
 
         <Form.Input
           label='Username'
@@ -46,15 +46,17 @@ export default function Register(props) {
           value={values.email}
           onChange={onChange}
           error={errors.email ? true : false}
+          className='inputs'
         />
         <Form.Input
           label='Date of Birth'
           placeholder='DD/MM/YYYY'
           name='dob'
-          type='text'
+          type='date'
           value={values.dob}
           onChange={onChange}
           error={errors.dateOfBirth ? true : false}
+          className='inputs'
         />
         <Form.Input
           label='Password'
@@ -64,6 +66,7 @@ export default function Register(props) {
           value={values.password}
           onChange={onChange}
           error={errors.password ? true : false}
+          className='inputs'
         />
         <Form.Input
           label='Confirm Password'
@@ -73,9 +76,10 @@ export default function Register(props) {
           value={values.confirmPassword}
           onChange={onChange}
           error={errors.confirmPassword ? true : false}
+          className='inputs'
         />
 
-        <Button type='submit' primary>
+        <Button type='submit' primary className='rBtn'>
           Register
         </Button>
       </Form>

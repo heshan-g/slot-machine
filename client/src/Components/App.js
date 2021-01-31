@@ -17,7 +17,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <Container>
+        <Container fluid>
           <MenuBar />
           <AuthRoute exact path='/login' component={Login} />
           <AuthRoute exact path='/register' component={Register} />

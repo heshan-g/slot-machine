@@ -8,6 +8,8 @@ import Play from '../Components/Play';
 import Redeem from '../Components/Redeem';
 import MyCoupons from '../Components/MyCoupons';
 
+import '.././Components/playStyles.css';
+
 const Game = () => {
   //Initialise game state
   const [prizePoints, setPrizePoints] = useState();
@@ -67,15 +69,18 @@ const Game = () => {
   return (
     <React.Fragment>
       {/* Points area */}
-      <Grid>
+      <Grid className='firstRow'>
         <Grid.Row className='two column'>
           <Grid.Column>
             {/* Render MyCoupons only if vouchers[] is defined */}
             <MyCoupons voucherList={vouchers} />
           </Grid.Column>
 
-          <Grid.Column>
-            <Label>You have {prizePoints} prize points</Label>
+          <Grid.Column textAlign='right'>
+            <p className='myPoints'>
+              You have <Label className='points'>{prizePoints}</Label> prize
+              points
+            </p>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row className='one column'>
@@ -94,7 +99,10 @@ const Game = () => {
       <Grid columns='equal' textAlign='center'>
         <Grid.Row>
           <Grid.Column>
-            <Label>You have {attempts} attempts remaining</Label>
+            <p className='attemptsLine'>
+              You have <Label className='attempts'>{attempts}</Label> attempts
+              remaining
+            </p>
           </Grid.Column>
         </Grid.Row>
       </Grid>

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Segment, Button } from 'semantic-ui-react';
+import { Grid, Button } from 'semantic-ui-react';
 import { useMutation, gql } from '@apollo/client';
 
 import UseCoupon from './UseCoupon';
 
+import './playStyles.css';
+
 const Play = (props) => {
-  const [wheel, setWheel] = useState([]);
+  const [wheel, setWheel] = useState([0, 0, 0]);
   const [spinPoints, setSpinPoints] = useState(0);
 
   //Modal state
@@ -25,6 +27,8 @@ const Play = (props) => {
       points: spinPoints,
     },
   });
+
+  const [isSpinning, setIsSpinning] = useState('false');
 
   // //Calculate prize points earned
   const calculatePoints = (wheelResult) => {
@@ -65,15 +69,27 @@ const Play = (props) => {
   //Called when spun ("Play" button is clicked)
   const spin = () => {
     if (props.activeStatus) {
-      //Spin wheels
-      setWheel([
-        Math.floor(Math.random() * Math.floor(9)) + 1,
-        Math.floor(Math.random() * Math.floor(9)) + 1,
-        Math.floor(Math.random() * Math.floor(9)) + 1,
-      ]);
+      // //Spin wheels
+      // setWheel([
+      //   Math.floor(Math.random() * Math.floor(9)) + 1,
+      //   Math.floor(Math.random() * Math.floor(9)) + 1,
+      //   Math.floor(Math.random() * Math.floor(9)) + 1,
+      // ]);
+
+      setIsSpinning('true');
+
+      setTimeout(function () {
+        setWheel([
+          Math.floor(Math.random() * Math.floor(9)) + 1,
+          Math.floor(Math.random() * Math.floor(9)) + 1,
+          Math.floor(Math.random() * Math.floor(9)) + 1,
+        ]);
+
+        setIsSpinning('false');
+      }, 3000);
     } else {
       //Show useCoupon modal
-      return setOpen(true);
+      return setOpen('true');
     }
   };
 
@@ -95,22 +111,48 @@ const Play = (props) => {
   };
 
   return (
-    <Grid columns='equal' textAlign='center'>
-      <Grid.Row>
-        <Grid.Column>
-          <Segment>{wheel[0]}</Segment>
+    <Grid columns='equal' textAlign='center' className='wheelGrid'>
+      <Grid.Row className='wheels'>
+        <Grid.Column className='wheel mwheelOne'>
+          <p
+            className={
+              isSpinning === 'false'
+                ? 'swheel wheelOne'
+                : 'meduh swheel wheelOne'
+            }
+          >
+            {wheel[0]}
+          </p>
         </Grid.Column>
-        <Grid.Column>
-          <Segment>{wheel[1]}</Segment>
+        <Grid.Column className='wheel mwheelTwo'>
+          <p
+            className={
+              isSpinning === 'false'
+                ? 'swheel wheelOne'
+                : 'meduh swheel wheelOne'
+            }
+          >
+            {wheel[1]}
+          </p>
         </Grid.Column>
-        <Grid.Column>
-          <Segment>{wheel[2]}</Segment>
+        <Grid.Column className='wheel mwheelThree'>
+          <p
+            className={
+              isSpinning === 'false'
+                ? 'swheel wheelOne'
+                : 'meduh swheel wheelOne'
+            }
+          >
+            {wheel[2]}
+          </p>
         </Grid.Column>
       </Grid.Row>
-      <Grid.Row className='one column'>
+      <Grid.Row className='one column playBtnG'>
         <Grid.Column className='center aligned column'>
           <Button
-            className={loading ? 'huge loading disabled' : 'huge'}
+            className={
+              loading ? 'huge loading disabled playBtn' : 'huge playBtn'
+            }
             onClick={() => spin()}
           >
             Play!

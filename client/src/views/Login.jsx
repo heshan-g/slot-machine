@@ -35,9 +35,9 @@ export default function Login(props) {
   };
 
   return (
-    <div>
+    <div className='registerForm'>
       <Form onSubmit={onSubmit} noValidate className={loading ? 'loading' : ''}>
-        <h1>Login</h1>
+        <h1 className='rTitle'>Login</h1>
 
         <Form.Input
           label='Username'
@@ -47,6 +47,7 @@ export default function Login(props) {
           value={values.email}
           onChange={onChange}
           error={errors.username ? true : false}
+          className='inputs'
         />
         <Form.Input
           label='Password'
@@ -56,9 +57,10 @@ export default function Login(props) {
           value={values.password}
           onChange={onChange}
           error={errors.password ? true : false}
+          className='inputs'
         />
 
-        <Button type='submit' primary>
+        <Button type='submit' primary className='rBtn'>
           Login
         </Button>
       </Form>

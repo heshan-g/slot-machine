@@ -3,6 +3,8 @@ import { Button, Header, Modal } from 'semantic-ui-react';
 import { gql, useMutation } from '@apollo/client';
 import randomString from 'randomstring';
 
+import './playStyles.css';
+
 const Redeem = (props) => {
   const [voucher, setVoucher] = useState('');
 
@@ -41,7 +43,7 @@ const Redeem = (props) => {
       open={open}
       trigger={
         <Button
-          className='right floated'
+          className='ui right floated redeemBtn'
           onClick={() => {
             generateVoucher();
           }}

@@ -1,0 +1,243 @@
+body {
+  font-family: 'Roboto Mono', monospace;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: #d3e0ea !important;
+}
+
+.landingDiv {
+  background-image: url('../images/slot-bg.jpg');
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  height: 93vh !important;
+  margin-top: 0 !important;
+  filter: blur(4px);
+  -webkit-filter: blur(4px);
+  opacity: 0.5 !important;
+  z-index: -1;
+}
+
+.landingTitle {
+  position: absolute;
+  top: 10% !important;
+  left: 15% !important;
+  color: #000000 !important;
+  font-family: 'Patua One', cursive;
+  font-size: 150px !important;
+  font-weight: bolder !important;
+  /* letter-spacing: 2px; */
+}
+
+.subtitle {
+  top: 80% !important;
+  left: 20% !important;
+  font-size: 50px !important;
+  color: #2a4853 !important;
+}
+
+.twoLines {
+  position: absolute;
+  color: #000000 !important;
+  left: 5% !important;
+}
+
+.registerForm {
+  margin: 7% 35% 0 35% !important;
+}
+
+.rTitle {
+  text-align: center;
+  margin-bottom: 8% !important;
+  font-family: 'Roboto Mono', monospace;
+  letter-spacing: 2px;
+  color: #2a4853 !important;
+}
+
+.inputs label {
+  color: #2a4853 !important;
+  font-size: 17px !important;
+}
+
+.inputs {
+  margin-top: 7% !important;
+}
+
+form input {
+  background-color: transparent !important;
+  border: 2px solid #719fb0 !important;
+  color: #719fb0 !important;
+}
+
+form input::placeholder {
+  color: #719fb0 !important;
+}
+
+.rBtn {
+  margin-top: 5% !important;
+  font-size: 16px !important;
+  font-family: 'Roboto Mono', monospace !important;
+  letter-spacing: 1px;
+  background-color: #719fb0 !important;
+  color: white !important;
+}
+
+.bigContainer {
+  background-color: #d3e0ea !important;
+}
+
+.mnav {
+  background-color: #1687a7 !important;
+  height: 60px !important;
+  font-size: 20px !important;
+  font-family: 'Roboto Mono', monospace;
+  letter-spacing: 3px;
+  margin-bottom: 0 !important;
+}
+
+.logout {
+  margin-right: 3% !important;
+}
+
+.logoutText {
+  color: white !important;
+}
+
+.myCoupons {
+  margin-left: 8% !important;
+  margin-top: 3% !important;
+  width: 30%;
+  height: 50px;
+  font-size: 20px !important;
+  font-family: 'Roboto Mono', monospace !important;
+  letter-spacing: 1px;
+  background-color: #719fb0 !important;
+  color: white !important;
+}
+
+.myPoints {
+  /* margin-left: 40%; */
+  margin-right: 9% !important;
+  margin-top: 3% !important;
+  font-size: 20px;
+  font-weight: 700 !important;
+  letter-spacing: 1px;
+  color: #2a4853 !important;
+}
+
+.points {
+  background-color: rgb(186, 190, 190) !important;
+  font-size: 20px !important;
+  background-color: transparent !important;
+  border: 5px solid #719fb0 !important;
+  color: #2a4853 !important;
+}
+
+.redeemBtn {
+  margin-right: 4.5% !important;
+  width: 15%;
+  height: 50px;
+  font-size: 20px !important;
+  font-family: 'Roboto Mono', monospace !important;
+  letter-spacing: 1px;
+  background-color: #719fb0 !important;
+  color: white !important;
+}
+
+.wheelGrid {
+  background-color: transparent;
+  width: 70% !important;
+  border: 3px solid transparent !important;
+  margin: 2% 15% 0% 15% !important;
+}
+
+.swheel {
+  background-color: transparent;
+  background: transparent !important;
+  height: 200px !important;
+  border: 6px solid #719fb0 !important;
+  border-style: dashed !important;
+  border-radius: 0 !important;
+  font-size: 8em !important;
+  font-family: 'Quantico', sans-serif;
+  color: rgb(10, 0, 0);
+  padding-top: 5% !important;
+}
+
+.playBtn {
+  border-radius: 100% !important;
+  width: 15%;
+  height: 150px;
+  border: 8px solid #719fb0 !important;
+  font-size: 23px !important;
+  font-family: 'Roboto Mono', monospace !important;
+  letter-spacing: 1px;
+  font-weight: 700 !important;
+  color: rgb(255, 255, 255) !important;
+  background-color: #021a22 !important;
+}
+
+.attemptsLine {
+  margin-top: 0 !important;
+  font-size: 20px !important;
+  letter-spacing: 1px;
+  font-weight: 700 !important;
+  color: #2a4853 !important;
+}
+
+.attempts {
+  background-color: rgb(186, 190, 190) !important;
+  font-size: 20px !important;
+  background-color: transparent !important;
+  border: 5px solid #719fb0 !important;
+  color: #2a4853 !important;
+}
+
+.meduh {
+  background-color: transparent !important;
+  border: 6px solid teal !important;
+  border-style: dashed !important;
+  color: transparent;
+  padding-right: 20% !important;
+}
+
+.meduh::after {
+  font-size: 1em !important;
+  color: rgb(0, 0, 0) !important;
+  content: counter(count) !important;
+  animation: counter 1s linear infinite alternate !important;
+  counter-reset: count 0 !important;
+  margin-right: 4% !important;
+}
+
+@keyframes counter {
+  0% {
+    counter-increment: count 0;
+  }
+  10% {
+    counter-increment: count 1;
+  }
+  20% {
+    counter-increment: count 2;
+  }
+  30% {
+    counter-increment: count 3;
+  }
+  40% {
+    counter-increment: count 4;
+  }
+  50% {
+    counter-increment: count 5;
+  }
+  60% {
+    counter-increment: count 6;
+  }
+  70% {
+    counter-increment: count 7;
+  }
+  80% {
+    counter-increment: count 8;
+  }
+  90% {
+    counter-increment: count 9;
+  }
+}
